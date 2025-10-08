@@ -14,8 +14,10 @@ jobs:
         run: dart --version
       - uses: actions/checkout@v5
       - name: Update Formula
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
-          git clone --single-branch "https://${{ secrets.HOMEBREW_PAT }}@github.com/birjuvachhani/homebrew-spider.git" "clone_dir"
+          git clone --single-branch "https:github.com/birjuvachhani/homebrew-spider.git" "clone_dir"
           GIT_TAG=`git describe --tags --abbrev=0`
           SPIDER_URL="https://github.com/BirjuVachhani/spider/archive/refs/tags/$GIT_TAG.tar.gz"
           curl -L -o spider.tar.gz "$SPIDER_URL"
