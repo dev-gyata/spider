@@ -4,7 +4,6 @@ on:
   release:
     types: [ published ]
   workflow_dispatch:
-    branches: [ main ]
 
 jobs:
   update_formula:
@@ -13,7 +12,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - name: Dart SDK
         run: dart --version
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v5
       - name: Update Formula
         run: |
           git clone --single-branch "https://${{ secrets.HOMEBREW_PAT }}@github.com/birjuvachhani/homebrew-spider.git" "clone_dir"

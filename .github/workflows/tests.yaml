@@ -18,11 +18,11 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - name: Dart SDK
         run: dart --version
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v5
       - name: Install dependencies
         run: dart pub get
       - name: Run tests
-        run: dart test
+        run: dart run test
       - name: Install coverage package
         run: dart pub global activate coverage
       - name: Generate coverage report
