@@ -94,7 +94,9 @@ class GlobalConfigs {
 
   /// Creates [GlobalConfigs] from given [json] map data.
   factory GlobalConfigs.fromJson(
-      Map<String, dynamic> json, Map<String, dynamic> pubspec) {
+    Map<String, dynamic> json,
+    Map<String, dynamic> pubspec,
+  ) {
     List<String>? ignoredRules;
     if (json['ignored_rules'] != null) {
       ignoredRules = [];
@@ -150,8 +152,9 @@ class FontConfigs {
     if (json is! Map) return FontConfigs(generate: false);
 
     final className = json['class_name'].toString();
-    final fileName =
-        Formatter.formatFileName(json['file_name']?.toString() ?? className);
+    final fileName = Formatter.formatFileName(
+      json['file_name']?.toString() ?? className,
+    );
     final prefix = json['prefix']?.toString();
     final useUnderScores = json['use_underscores'] == true;
 

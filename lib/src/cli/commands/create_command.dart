@@ -27,16 +27,22 @@ class CreateCommand extends BaseCommand {
   /// [logger] is used to output all kinds of logs, errors and exceptions.
   CreateCommand(super.logger) {
     argParser
-      ..addFlag(FlagNames.addInPubspec,
-          negatable: false,
-          help: 'Adds the generated config file to the pubspec.yaml file.')
-      ..addFlag(FlagNames.json,
-          abbr: 'j',
-          negatable: false,
-          help: 'Generates config file of type JSON rather than YAML.')
-      ..addOption(OptionNames.path,
-          abbr: 'p',
-          help: 'Allows to provide custom directory path for the config file.');
+      ..addFlag(
+        FlagNames.addInPubspec,
+        negatable: false,
+        help: 'Adds the generated config file to the pubspec.yaml file.',
+      )
+      ..addFlag(
+        FlagNames.json,
+        abbr: 'j',
+        negatable: false,
+        help: 'Generates config file of type JSON rather than YAML.',
+      )
+      ..addOption(
+        OptionNames.path,
+        abbr: 'p',
+        help: 'Allows to provide custom directory path for the config file.',
+      );
   }
 
   @override
@@ -50,8 +56,9 @@ class CreateCommand extends BaseCommand {
     final bool addInPubspec = results.getFlag(FlagNames.addInPubspec);
     final String? path = results[OptionNames.path];
 
-    final result = ConfigCreator(logger)
-        .create(addInPubspec: addInPubspec, isJson: isJson, path: path);
+    final result = ConfigCreator(
+      logger,
+    ).create(addInPubspec: addInPubspec, isJson: isJson, path: path);
 
     if (result.isError) {
       if (result.exception != null) verbose(result.exception.toString());

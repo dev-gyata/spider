@@ -24,14 +24,12 @@ class ProcessTerminator {
   }
 
   @visibleForTesting
-
   /// Allows to set mocked instance for testing.
-  static setMock(ProcessTerminator? mock) => _instance = mock;
+  static void setMock(ProcessTerminator? mock) => _instance = mock;
 
   @visibleForTesting
-
   /// Removes stored mock instance in testing.
-  static clearMock() => _instance = null;
+  static void clearMock() => _instance = null;
 
   /// Terminates the process.
   /// [message] will be printed via [logger] as an error message

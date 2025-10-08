@@ -61,15 +61,17 @@ class DartClassGenerator {
       }
     } else if (smartWatch) {
       if (group.paths != null) {
-        logger
-            ?.verbose('path ${group.paths} is requested to be watched smartly');
+        logger?.verbose(
+          'path ${group.paths} is requested to be watched smartly',
+        );
         for (final path in group.paths!) {
           _smartWatchDirectory(dir: path, types: group.types!);
         }
       } else {
         for (final subgroup in group.subgroups!) {
           logger?.verbose(
-              'path ${subgroup.paths} is requested to be watched smartly');
+            'path ${subgroup.paths} is requested to be watched smartly',
+          );
           for (final path in subgroup.paths) {
             _smartWatchDirectory(dir: path, types: subgroup.types);
           }
@@ -113,17 +115,14 @@ class DartClassGenerator {
         endTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
 
     logger?.success(
-      sprintf(
-        ConsoleMessages.processedItemsForClassTemplate,
-        [
-          group.className,
-          if (properties.length > 1)
-            properties.expand((element) => element.files.entries).length
-          else
-            properties.first.files.length,
-          elapsedTime,
-        ],
-      ),
+      sprintf(ConsoleMessages.processedItemsForClassTemplate, [
+        group.className,
+        if (properties.length > 1)
+          properties.expand((element) => element.files.entries).length
+        else
+          properties.first.files.length,
+        elapsedTime,
+      ]),
     );
   }
 
@@ -145,28 +144,37 @@ class DartClassGenerator {
     final resolvedDir = packageAssetPathPrefix == null
         ? dir
         : path.join(
-            Constants.LIB_FOLDER, path.joinAll(uri.pathSegments.sublist(2)));
+            Constants.LIB_FOLDER,
+            path.joinAll(uri.pathSegments.sublist(2)),
+          );
 
-    var files = Directory(resolvedDir).listSync().where((file) {
-      final valid = _isValidFile(file, types);
-      logger?.verbose('Valid: $file');
-      logger?.verbose(
-          'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}');
-      return valid;
-    }).toList()
-      ..sort((a, b) => path.basename(a.path).compareTo(path.basename(b.path)));
+    var files =
+        Directory(resolvedDir).listSync().where((file) {
+          final valid = _isValidFile(file, types);
+          logger?.verbose('Valid: $file');
+          logger?.verbose(
+            'Asset - ${path.basename(file.path)} is ${valid ? 'selected' : 'not selected'}',
+          );
+          return valid;
+        }).toList()..sort(
+          (a, b) => path.basename(a.path).compareTo(path.basename(b.path)),
+        );
 
     if (files.isEmpty) {
       logger?.info(sprintf(ConsoleMessages.directoryEmpty, [dir.toString()]));
       return <String, String>{};
     }
-    return Map.fromEntries(files.map((file) {
-      final resolvedFile = packageAssetPathPrefix == null
-          ? file.path
-          : path.join(packageAssetPathPrefix,
-              path.joinAll(Uri.parse(file.path).pathSegments.sublist(1)));
-      return MapEntry(path.basenameWithoutExtension(file.path), resolvedFile);
-    }));
+    return Map.fromEntries(
+      files.map((file) {
+        final resolvedFile = packageAssetPathPrefix == null
+            ? file.path
+            : path.join(
+                packageAssetPathPrefix,
+                path.joinAll(Uri.parse(file.path).pathSegments.sublist(1)),
+              );
+        return MapEntry(path.basenameWithoutExtension(file.path), resolvedFile);
+      }),
+    );
   }
 
   /// checks whether the file is valid file to be included or not
@@ -180,8 +188,9 @@ class DartClassGenerator {
 
   /// Watches assets dir for file changes and rebuilds dart code
   void _watchDirectory(String dir) {
-    logger?.info(sprintf(
-        ConsoleMessages.watchingForChangesInDirectory, [dir.toString()]));
+    logger?.info(
+      sprintf(ConsoleMessages.watchingForChangesInDirectory, [dir.toString()]),
+    );
     final watcher = DirectoryWatcher(dir);
 
     final subscription = watcher.events.listen((event) {
@@ -199,21 +208,25 @@ class DartClassGenerator {
     required String dir,
     required List<String> types,
   }) {
-    logger?.info(sprintf(
-        ConsoleMessages.watchingForChangesInDirectory, [dir.toString()]));
+    logger?.info(
+      sprintf(ConsoleMessages.watchingForChangesInDirectory, [dir.toString()]),
+    );
     final watcher = DirectoryWatcher(dir);
     final subscription = watcher.events.listen((event) {
       logger?.verbose('something changed...');
       final filename = path.basename(event.path);
       if (event.type == ChangeType.MODIFY) {
-        logger?.verbose('$filename is modified. '
-            '${group.className} class will not be rebuilt');
+        logger?.verbose(
+          '$filename is modified. '
+          '${group.className} class will not be rebuilt',
+        );
         return;
       }
       if (!types.contains(path.extension(event.path))) {
-        logger
-            ?.verbose('$filename does not have allowed extension for the group '
-                '$dir. ${group.className} class will not be rebuilt');
+        logger?.verbose(
+          '$filename does not have allowed extension for the group '
+          '$dir. ${group.className} class will not be rebuilt',
+        );
         return;
       }
       if (!_processing) {
@@ -232,22 +245,22 @@ class DartClassGenerator {
 
     for (final property in properties) {
       references += property.files.keys
-          .map<String>(
-            (name) {
-              logger?.verbose(
-                  'processing ${path.basename(property.files[name]!)}');
-              return getReference(
-                  properties: staticProperty + constProperty,
-                  assetName: Formatter.formatName(
-                    name,
-                    prefix: group.paths != null
-                        ? group.prefix!
-                        : group.prefix ?? property.prefix,
-                    useUnderScores: group.useUnderScores,
-                  ),
-                  assetPath: Formatter.formatPath(property.files[name]!));
-            },
-          )
+          .map<String>((name) {
+            logger?.verbose(
+              'processing ${path.basename(property.files[name]!)}',
+            );
+            return getReference(
+              properties: staticProperty + constProperty,
+              assetName: Formatter.formatName(
+                name,
+                prefix: group.paths != null
+                    ? group.prefix!
+                    : group.prefix ?? property.prefix,
+                useUnderScores: group.useUnderScores,
+              ),
+              assetPath: Formatter.formatPath(property.files[name]!),
+            );
+          })
           .toList()
           .join();
     }
@@ -256,17 +269,19 @@ class DartClassGenerator {
     List<String> getAssetNames() {
       final assetNames = <String>[];
       for (final property in properties) {
-        assetNames.addAll(property.files.keys
-            .map(
-              (name) => Formatter.formatName(
-                name,
-                prefix: group.paths != null
-                    ? group.prefix!
-                    : group.prefix ?? property.prefix,
-                useUnderScores: group.useUnderScores,
-              ),
-            )
-            .toList());
+        assetNames.addAll(
+          property.files.keys
+              .map(
+                (name) => Formatter.formatName(
+                  name,
+                  prefix: group.paths != null
+                      ? group.prefix!
+                      : group.prefix ?? property.prefix,
+                  useUnderScores: group.useUnderScores,
+                ),
+              )
+              .toList(),
+        );
       }
 
       return assetNames;
@@ -289,8 +304,9 @@ class DartClassGenerator {
       exportFileName: Formatter.formatFileName(globals.exportFileName),
       valuesList: valuesList,
     );
-    logger
-        ?.verbose('Writing class ${group.className} to file ${group.fileName}');
+    logger?.verbose(
+      'Writing class ${group.className} to file ${group.fileName}',
+    );
     writeToFile(
       name: Formatter.formatFileName(group.fileName),
       path: globals.package,
@@ -301,22 +317,25 @@ class DartClassGenerator {
 
   void _generateTests(List<SubgroupProperty> properties) {
     logger?.info(
-        sprintf(ConsoleMessages.generatingTestsForClass, [group.className]));
-    final fileName =
-        path.basenameWithoutExtension(Formatter.formatFileName(group.fileName));
+      sprintf(ConsoleMessages.generatingTestsForClass, [group.className]),
+    );
+    final fileName = path.basenameWithoutExtension(
+      Formatter.formatFileName(group.fileName),
+    );
     var tests = '';
     for (final property in properties) {
       tests += property.files.keys
           .map<String>((key) {
             return getTestCase(
-                group.className,
-                Formatter.formatName(
-                  key,
-                  prefix: group.paths != null
-                      ? group.prefix!
-                      : group.prefix ?? property.prefix,
-                  useUnderScores: group.useUnderScores,
-                ));
+              group.className,
+              Formatter.formatName(
+                key,
+                prefix: group.paths != null
+                    ? group.prefix!
+                    : group.prefix ?? property.prefix,
+                useUnderScores: group.useUnderScores,
+              ),
+            );
           })
           .toList()
           .join();
@@ -338,13 +357,16 @@ class DartClassGenerator {
     if (!Directory(Constants.TEST_FOLDER).existsSync()) {
       Directory(Constants.TEST_FOLDER).createSync();
     }
-    var classFile =
-        File(path.join(Constants.TEST_FOLDER, '${fileName}_test.dart'));
+    var classFile = File(
+      path.join(Constants.TEST_FOLDER, '${fileName}_test.dart'),
+    );
     logger?.verbose(
-        'writing test ${fileName}_test.dart for class ${group.className}');
+      'writing test ${fileName}_test.dart for class ${group.className}',
+    );
     classFile.writeAsStringSync(formatter.format(content));
     logger?.verbose(
-        'File ${path.basename(classFile.path)} is written successfully');
+      'File ${path.basename(classFile.path)} is written successfully',
+    );
   }
 
   /// Cancels all subscriptions

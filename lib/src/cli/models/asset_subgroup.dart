@@ -27,7 +27,8 @@ class AssetSubgroup {
     prefix = json['prefix']?.toString() ?? '';
     types = <String>[];
     json['types']?.forEach(
-        (group) => types.add(formatExtension(group.toString()).toLowerCase()));
+      (group) => types.add(formatExtension(group.toString()).toLowerCase()),
+    );
     paths = <String>[];
     if (json['paths'] != null) {
       paths.addAll(List<String>.from(json['paths']));

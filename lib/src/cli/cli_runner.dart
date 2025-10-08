@@ -23,8 +23,10 @@ class CliRunner extends BaseCommandRunner<void> {
   /// [logger] is if provided, will be used for logging. If not provided then
   /// a [ConsoleLogger] will be created using [output] and [errorSink].
   CliRunner([IOSink? output, IOSink? errorSink, BaseLogger? logger])
-      : super('spider',
-            'A command line tool for generating dart asset references.') {
+    : super(
+        'spider',
+        'A command line tool for generating dart asset references.',
+      ) {
     // Create logger for CLI.
     _logger = logger ?? ConsoleLogger(output: output, errorSink: errorSink);
 
@@ -40,12 +42,18 @@ class CliRunner extends BaseCommandRunner<void> {
 
     // Top-level flags and options
     argParser
-      ..addFlag(FlagNames.verbose,
-          /*abbr: 'v', */ negatable: false, help: 'Increase logging.')
-      ..addOption(OptionNames.path,
-          abbr: 'p',
-          help: 'Path of the config file if it is not in the root directory '
-              'of the project.');
+      ..addFlag(
+        FlagNames.verbose,
+        /*abbr: 'v', */ negatable: false,
+        help: 'Increase logging.',
+      )
+      ..addOption(
+        OptionNames.path,
+        abbr: 'p',
+        help:
+            'Path of the config file if it is not in the root directory '
+            'of the project.',
+      );
   }
 
   @override
@@ -59,8 +67,10 @@ class CliRunner extends BaseCommandRunner<void> {
 
       exit(64);
     } on Exception catch (e, stacktrace) {
-      _logger.error(sprintf(ConsoleMessages.exitedUnexpectedly, [e.toString()]),
-          stacktrace);
+      _logger.error(
+        sprintf(ConsoleMessages.exitedUnexpectedly, [e.toString()]),
+        stacktrace,
+      );
       exit(1);
     }
   }
@@ -68,9 +78,11 @@ class CliRunner extends BaseCommandRunner<void> {
   @override
   Future<void> runCommand(ArgResults topLevelResults) async {
     /// Set level for logging.
-    _logger.setLogLevel(topLevelResults.getFlag(FlagNames.verbose)
-        ? LogLevel.verbose
-        : LogLevel.info);
+    _logger.setLogLevel(
+      topLevelResults.getFlag(FlagNames.verbose)
+          ? LogLevel.verbose
+          : LogLevel.info,
+    );
     return super.runCommand(topLevelResults);
   }
 }

@@ -31,8 +31,7 @@ abstract class BaseCommandRunner<T> extends CommandRunner<T> {
   /// registers it as a flag on the parser.
   /// If a command is already registered with the same name, it will be ignored.
   void addFlagCommand(BaseFlagCommand command) {
-    if (flagCommands.firstWhereOrNull((item) => item.name == command.name) !=
-        null) return;
+    if (flagCommands.any((item) => item.name == command.name)) return;
     flagCommands.add(command);
     argParser.addFlag(
       command.name,

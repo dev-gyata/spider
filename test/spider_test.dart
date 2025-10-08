@@ -31,7 +31,7 @@ void main() {
       {
         "class_name": "Images",
         "path": "assets/images",
-        "types": [".png", ".jpg", ".jpeg", ".webp", ".webm", ".bmp"]
+        "types": [".png", ".jpg", ".jpeg", ".webp", ".webm", ".bmp"],
       },
       {
         "class_name": "Svgs",
@@ -39,14 +39,14 @@ void main() {
           {
             "path": "assets/svgsMenu",
             "prefix": "menu",
-            "types": [".svg"]
+            "types": [".svg"],
           },
           {
             "path": "assets/svgsOther",
             "prefix": "other",
-            "types": [".svg"]
-          }
-        ]
+            "types": [".svg"],
+          },
+        ],
       },
       {
         "class_name": "Ico",
@@ -56,14 +56,14 @@ void main() {
           {
             "path": "assets/icons",
             "prefix": "test1",
-            "types": [".ttf"]
+            "types": [".ttf"],
           },
           {
             "path": "assets/vectors",
             "prefix": "test2",
-            "types": [".pdf"]
-          }
-        ]
+            "types": [".pdf"],
+          },
+        ],
       },
       {
         "class_name": "Video",
@@ -71,10 +71,10 @@ void main() {
         "path": "assets/moviesOnly",
         "sub_groups": [
           {"path": "assets/movies", "prefix": "common"},
-          {"path": "assets/moviesExtra", "prefix": "extra"}
-        ]
-      }
-    ]
+          {"path": "assets/moviesExtra", "prefix": "extra"},
+        ],
+      },
+    ],
   };
 
   test('create config test test', () {
@@ -107,8 +107,11 @@ void main() {
       createTestAssets();
 
       final Result<SpiderConfiguration> result = retrieveConfigs();
-      expect(result.isSuccess, isTrue,
-          reason: 'valid config file should not return error but it did.');
+      expect(
+        result.isSuccess,
+        isTrue,
+        reason: 'valid config file should not return error but it did.',
+      );
 
       final SpiderConfiguration config = result.data;
 
@@ -145,10 +148,11 @@ void main() {
       final classContent4 = genFile4.readAsStringSync();
 
       expect(
-          classContent1,
-          contains(
-            '// ignore_for_file: public_member_api_docs, member-ordering-extended, test_rule',
-          ));
+        classContent1,
+        contains(
+          '// ignore_for_file: public_member_api_docs, member-ordering-extended, test_rule',
+        ),
+      );
       expect(classContent1, contains('class Images'));
       expect(classContent1, contains('static const String test1'));
       expect(classContent1, contains('static const String test2'));
@@ -186,8 +190,11 @@ void main() {
       createTestAssets();
 
       final Result<SpiderConfiguration> result = retrieveConfigs();
-      expect(result.isSuccess, isTrue,
-          reason: 'valid config file should not return error but it did.');
+      expect(
+        result.isSuccess,
+        isTrue,
+        reason: 'valid config file should not return error but it did.',
+      );
 
       final SpiderConfiguration config = result.data;
 

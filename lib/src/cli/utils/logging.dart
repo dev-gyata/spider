@@ -97,12 +97,9 @@ class ConsoleLogger extends BaseLogger {
   /// Defaults to [stdout] as this is a console logger.
   /// [errorSink] is the output sink for specially logging errors. Defaults to
   /// [stderr] as this is a console logger.
-  ConsoleLogger({
-    IOSink? output,
-    IOSink? errorSink,
-    Logger? logger,
-  })  : logger = logger ?? Logger('spider-console'),
-        super(output: output ?? stdout, errorSink: errorSink ?? stderr) {
+  ConsoleLogger({IOSink? output, IOSink? errorSink, Logger? logger})
+    : logger = logger ?? Logger('spider-console'),
+      super(output: output ?? stdout, errorSink: errorSink ?? stderr) {
     setupLogging();
   }
 
@@ -120,7 +117,8 @@ class ConsoleLogger extends BaseLogger {
         }
       } else {
         stdout.writeln(
-            '${record.level != successLevel ? '[${record.level.name}] ' : ''}${record.message}');
+          '${record.level != successLevel ? '[${record.level.name}] ' : ''}${record.message}',
+        );
       }
     });
   }

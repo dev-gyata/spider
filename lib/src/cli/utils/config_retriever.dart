@@ -22,7 +22,8 @@ Result<SpiderConfiguration> retrieveConfigs({
   bool allowEmpty = false,
   bool fontsOnly = false,
 }) {
-  final Result<JsonMap>? result = readConfigFileFromPath(customPath, logger) ??
+  final Result<JsonMap>? result =
+      readConfigFileFromPath(customPath, logger) ??
       readConfigsFromPubspec(logger) ??
       readConfigFileFromRoot(logger);
 
@@ -66,21 +67,30 @@ Result<SpiderConfiguration> retrieveConfigs({
 /// Reads the config from the config file in the current directory.
 Result<JsonMap>? readConfigFileFromRoot([BaseLogger? logger]) {
   try {
-    var yamlFile = file(p.join(Directory.current.path, 'spider.yaml')) ??
+    var yamlFile =
+        file(p.join(Directory.current.path, 'spider.yaml')) ??
         file(p.join(Directory.current.path, 'spider.yml'));
     final jsonFile = file(p.join(Directory.current.path, 'spider.json'));
     Map<String, dynamic> map;
     if (yamlFile != null) {
       logger?.info(
-          sprintf(ConsoleMessages.configFoundAtTemplate, [yamlFile.path]));
-      logger?.info(sprintf(ConsoleMessages.loadingConfigsFromTemplate,
-          [p.basename(yamlFile.path)]));
+        sprintf(ConsoleMessages.configFoundAtTemplate, [yamlFile.path]),
+      );
+      logger?.info(
+        sprintf(ConsoleMessages.loadingConfigsFromTemplate, [
+          p.basename(yamlFile.path),
+        ]),
+      );
       map = yamlToMap(yamlFile.path);
     } else if (jsonFile != null) {
       logger?.info(
-          sprintf(ConsoleMessages.configFoundAtTemplate, [jsonFile.path]));
-      logger?.info(sprintf(ConsoleMessages.loadingConfigsFromTemplate,
-          [p.basename(jsonFile.path)]));
+        sprintf(ConsoleMessages.configFoundAtTemplate, [jsonFile.path]),
+      );
+      logger?.info(
+        sprintf(ConsoleMessages.loadingConfigsFromTemplate, [
+          p.basename(jsonFile.path),
+        ]),
+      );
       map = json.decode(jsonFile.readAsStringSync());
     } else {
       return null;
@@ -102,7 +112,8 @@ Result<JsonMap>? readConfigsFromPubspec([BaseLogger? logger]) {
     final parsed = yamlToMap(pubspecFile.path)['spider'];
     if (parsed == null) return null;
     logger?.info(
-        sprintf(ConsoleMessages.configFoundAtTemplate, [pubspecFile.path]));
+      sprintf(ConsoleMessages.configFoundAtTemplate, [pubspecFile.path]),
+    );
     return Result.success(JsonMap.from(parsed));
   } catch (error, stacktrace) {
     return Result.error(ConsoleMessages.parseError, error, stacktrace);
@@ -110,8 +121,10 @@ Result<JsonMap>? readConfigsFromPubspec([BaseLogger? logger]) {
 }
 
 /// Reads the config from the path provided in the command line.
-Result<JsonMap>? readConfigFileFromPath(String? customPath,
-    [BaseLogger? logger]) {
+Result<JsonMap>? readConfigFileFromPath(
+  String? customPath, [
+  BaseLogger? logger,
+]) {
   if (customPath == null) return null;
 
   final File? configFile = file(customPath);
@@ -121,7 +134,8 @@ Result<JsonMap>? readConfigFileFromPath(String? customPath,
   try {
     final extension = p.extension(configFile.path);
     logger?.info(
-        sprintf(ConsoleMessages.configFoundAtTemplate, [configFile.path]));
+      sprintf(ConsoleMessages.configFoundAtTemplate, [configFile.path]),
+    );
     if (extension == '.yaml' || extension == '.yml') {
       return Result.success(yamlToMap(configFile.path));
     } else if (extension == '.json') {
@@ -136,7 +150,8 @@ Result<JsonMap>? readConfigFileFromPath(String? customPath,
 /// Reads pubspec.yaml file content.
 Result<JsonMap> retrievePubspecData() {
   try {
-    final pubspecFile = file(p.join(Directory.current.path, 'pubspec.yaml')) ??
+    final pubspecFile =
+        file(p.join(Directory.current.path, 'pubspec.yaml')) ??
         file(p.join(Directory.current.path, 'pubspec.yml'));
     if (pubspecFile != null) {
       final pubspec = loadYaml(pubspecFile.readAsStringSync());
@@ -145,6 +160,9 @@ Result<JsonMap> retrievePubspecData() {
     return Result.error(ConsoleMessages.unableToLoadPubspecFile);
   } catch (error, stacktrace) {
     return Result.error(
-        ConsoleMessages.unableToLoadPubspecFile, error, stacktrace);
+      ConsoleMessages.unableToLoadPubspecFile,
+      error,
+      stacktrace,
+    );
   }
 }

@@ -23,7 +23,8 @@ File? file(String path) {
 /// Checks whether the directory in which the command has been fired is a
 /// dart/flutter project or not.
 bool isFlutterProject() {
-  final pubspecFile = file(p.join(Directory.current.path, 'pubspec.yaml')) ??
+  final pubspecFile =
+      file(p.join(Directory.current.path, 'pubspec.yaml')) ??
       file(p.join(Directory.current.path, 'pubspec.yml'));
   return pubspecFile != null && pubspecFile.existsSync();
 }
@@ -54,7 +55,8 @@ Result<bool> validateConfigs(
         for (final entry in group.entries) {
           if (entry.value == null) {
             return Result.error(
-                sprintf(ConsoleMessages.nullValueError, [entry.key]));
+              sprintf(ConsoleMessages.nullValueError, [entry.key]),
+            );
           }
         }
         if (group['paths'] != null || group['path'] != null) {
@@ -148,8 +150,8 @@ Result<bool> _assertDir(String dir) {
   }
 
   final uri = Uri.parse(dir);
-  final resolvedDir = uri.pathSegments.first !=
-          Constants.PACKAGE_ASSET_PATH_PREFIX
+  final resolvedDir =
+      uri.pathSegments.first != Constants.PACKAGE_ASSET_PATH_PREFIX
       ? dir
       : p.join(Constants.LIB_FOLDER, p.joinAll(uri.pathSegments.sublist(2)));
   if (!FileSystemEntity.isDirectorySync(resolvedDir)) {

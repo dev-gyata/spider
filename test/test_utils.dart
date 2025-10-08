@@ -23,8 +23,9 @@ void deleteConfigFiles() {
 }
 
 void createTestConfigs(Map<String, dynamic> config) {
-  File('spider.json')
-      .writeAsStringSync(JsonEncoder.withIndent(' ').convert(config));
+  File(
+    'spider.json',
+  ).writeAsStringSync(JsonEncoder.withIndent(' ').convert(config));
 }
 
 void createTestAssets() {
@@ -46,14 +47,18 @@ void createTestAssets() {
 
   File(p.join('assets', 'movies', 'test12.mp4')).createSync(recursive: true);
   File(p.join('assets', 'movies', 'test13.mp4')).createSync(recursive: true);
-  File(p.join('assets', 'moviesExtra', 'test14.mp4'))
-      .createSync(recursive: true);
-  File(p.join('assets', 'moviesExtra', 'test15.mp4'))
-      .createSync(recursive: true);
-  File(p.join('assets', 'moviesOnly', 'test16.mp4'))
-      .createSync(recursive: true);
-  File(p.join('assets', 'moviesOnly', 'test17.ico'))
-      .createSync(recursive: true);
+  File(
+    p.join('assets', 'moviesExtra', 'test14.mp4'),
+  ).createSync(recursive: true);
+  File(
+    p.join('assets', 'moviesExtra', 'test15.mp4'),
+  ).createSync(recursive: true);
+  File(
+    p.join('assets', 'moviesOnly', 'test16.mp4'),
+  ).createSync(recursive: true);
+  File(
+    p.join('assets', 'moviesOnly', 'test17.ico'),
+  ).createSync(recursive: true);
 }
 
 void createMoreTestAssets() {
@@ -92,6 +97,7 @@ class MockProcessTerminator extends Mock implements ProcessTerminator {
   @override
   void terminate(String? message, dynamic stackTrace, [BaseLogger? logger]) =>
       super.noSuchMethod(
-          Invocation.method(#terminate, [message, stackTrace, logger]),
-          returnValueForMissingStub: null);
+        Invocation.method(#terminate, [message, stackTrace, logger]),
+        returnValueForMissingStub: null,
+      );
 }

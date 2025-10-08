@@ -21,9 +21,9 @@ final Map<String, CommandCreator<BaseCommand>> commandsCreatorRegistry = {
 /// Holds all the available flag commands for the CLI.
 final Map<String, CommandCreator<BaseFlagCommand>> flagCommandsCreatorRegistry =
     {
-  FlagNames.version: VersionFlagCommand.new,
-  FlagNames.about: AboutFlagCommand.new,
-  FlagNames.checkForUpdates: CheckUpdatesFlagCommand.new,
-  FlagNames.license: LicenseFlagCommand.new,
-  FlagNames.docs: DocsFlagCommand.new,
-};
+      FlagNames.version: VersionFlagCommand.new,
+      FlagNames.about: AboutFlagCommand.new,
+      FlagNames.checkForUpdates: CheckUpdatesFlagCommand.new,
+      FlagNames.license: LicenseFlagCommand.new,
+      FlagNames.docs: DocsFlagCommand.new,
+    };

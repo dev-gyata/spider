@@ -11,7 +11,7 @@ enum ResultState {
   success,
 
   /// Error occurred.
-  error
+  error,
 }
 
 /// A data class that can be used to either return data or error as a result
@@ -47,21 +47,21 @@ class Result<T> {
 
   /// Constructor that creates an empty result.
   const Result.empty()
-      : _data = null,
-        _error = null,
-        exception = null,
-        stacktrace = null,
-        state = ResultState.empty;
+    : _data = null,
+      _error = null,
+      exception = null,
+      stacktrace = null,
+      state = ResultState.empty;
 
   /// Constructor that creates a successful result.
   const Result.success([this._data])
-      : _error = null,
-        exception = null,
-        stacktrace = null,
-        state = ResultState.success;
+    : _error = null,
+      exception = null,
+      stacktrace = null,
+      state = ResultState.success;
 
   /// Constructor that creates an error result.
   const Result.error(this._error, [this.exception, this.stacktrace])
-      : _data = null,
-        state = ResultState.error;
+    : _data = null,
+      state = ResultState.error;
 }

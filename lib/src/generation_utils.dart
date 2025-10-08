@@ -12,8 +12,12 @@ import 'data/export_template.dart';
 import 'data/test_template.dart';
 
 /// Writes given [content] to the file with given [name] at given [path].
-void writeToFile(
-    {String? name, String? path, required String content, BaseLogger? logger}) {
+void writeToFile({
+  String? name,
+  String? path,
+  required String content,
+  BaseLogger? logger,
+}) {
   if (!Directory(p.join(Constants.LIB_FOLDER, path)).existsSync()) {
     Directory(p.join(Constants.LIB_FOLDER, path)).createSync(recursive: true);
   }
@@ -49,16 +53,22 @@ String getDartClass({
   var content = '';
   if (ignoredRules != null && ignoredRules.isNotEmpty) {
     content = ignoreRulesTemplate.replaceAll(
-        Constants.KEY_IGNORED_RULES, ignoredRules.join(', '));
+      Constants.KEY_IGNORED_RULES,
+      ignoredRules.join(', '),
+    );
   }
 
   if (!noComments) {
     content += timeStampComment.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+      Constants.KEY_TIME,
+      DateTime.now().toString(),
+    );
   }
   if (usePartOf) {
-    content +=
-        partOfTemplate.replaceAll(Constants.KEY_FILE_NAME, exportFileName!);
+    content += partOfTemplate.replaceAll(
+      Constants.KEY_FILE_NAME,
+      exportFileName!,
+    );
   }
 
   content += classTemplate
@@ -83,11 +93,17 @@ String getExportContent({
   var content = '';
   if (!noComments) {
     content += timeStampComment.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+      Constants.KEY_TIME,
+      DateTime.now().toString(),
+    );
   }
   content += fileNames
-      .map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate)
-          .replaceAll(Constants.KEY_FILE_NAME, item))
+      .map<String>(
+        (item) => (usePartOf ? partTemplate : exportFileTemplate).replaceAll(
+          Constants.KEY_FILE_NAME,
+          item,
+        ),
+      )
       .toList()
       .join('\n\n');
   return content;
@@ -145,13 +161,15 @@ String getTestClass({
     projectPackageImport
         .replaceAll(Constants.KEY_PROJECT_NAME, project)
         .replaceAll(Constants.KEY_PACKAGE, package)
-        .replaceAll(Constants.KEY_IMPORT_FILE_NAME, importFileName)
+        .replaceAll(Constants.KEY_IMPORT_FILE_NAME, importFileName),
   ]..sort();
 
   var content = '';
   if (!noComments) {
     content += timeStampTemplate.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+      Constants.KEY_TIME,
+      DateTime.now().toString(),
+    );
   }
   content += testTemplate
       .replaceAll(Constants.KEY_FILE_NAME, fileName)

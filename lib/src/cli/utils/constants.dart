@@ -66,7 +66,8 @@ class Constants {
 
   static const String VERSION_REGEX = '^([0-9]+).([0-9]+).([0-9]+)\$';
 
-  static const String INFO = '''
+  static const String INFO =
+      '''
 
 SPIDER:
   A small dart command-line tool for generating dart references of assets from

@@ -48,9 +48,11 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
     try {
       final latestVersion = await fetchLatestVersion();
       if (packageVersion != latestVersion && latestVersion.isNotEmpty) {
-        logger?.success(Constants.NEW_VERSION_AVAILABLE
-            .replaceAll('X.X.X', packageVersion)
-            .replaceAll('Y.Y.Y', latestVersion));
+        logger?.success(
+          Constants.NEW_VERSION_AVAILABLE
+              .replaceAll('X.X.X', packageVersion)
+              .replaceAll('Y.Y.Y', latestVersion),
+        );
         sleep(Duration(seconds: 1));
         return Result.success(true);
       }
@@ -74,8 +76,9 @@ class CheckUpdatesFlagCommand extends BaseFlagCommand {
 
       final document = parser.parse(html.body);
 
-      var jsonScript =
-          document.querySelector('script[type="application/ld+json"]')!;
+      var jsonScript = document.querySelector(
+        'script[type="application/ld+json"]',
+      )!;
       var json = jsonDecode(jsonScript.innerHtml);
       final version = json['version'] ?? '';
       return RegExp(Constants.VERSION_REGEX).hasMatch(version) ? version : '';

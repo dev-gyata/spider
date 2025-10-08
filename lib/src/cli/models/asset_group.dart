@@ -50,8 +50,9 @@ class AssetGroup {
   /// Generates [AssetGroup] from the [json] map data.
   AssetGroup.fromJson(Map<String, dynamic> json) {
     className = json['class_name'].toString();
-    fileName =
-        Formatter.formatFileName(json['file_name']?.toString() ?? className);
+    fileName = Formatter.formatFileName(
+      json['file_name']?.toString() ?? className,
+    );
     paths = json['path'] == null && json['paths'] == null ? null : <String>[];
     if (json['paths'] != null) {
       paths!.addAll(List<String>.from(json['paths']));
@@ -73,13 +74,15 @@ class AssetGroup {
     }
 
     if (types != null) {
-      json['types']!.forEach((group) =>
-          types!.add(formatExtension(group.toString()).toLowerCase()));
+      json['types']!.forEach(
+        (group) => types!.add(formatExtension(group.toString()).toLowerCase()),
+      );
     }
     if (subgroups != null) {
       if (json['sub_groups'] != null) {
         json['sub_groups'].forEach(
-            (subgroup) => subgroups!.add(AssetSubgroup.fromJson(subgroup)));
+          (subgroup) => subgroups!.add(AssetSubgroup.fromJson(subgroup)),
+        );
       } else if (json['sub_group'] != null) {
         subgroups!.add(AssetSubgroup.fromJson(json['sub_group']));
       }

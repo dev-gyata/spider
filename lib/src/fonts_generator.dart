@@ -14,10 +14,14 @@ class FontsGenerator {
   /// Entry point for this generator.
   /// [fonts] is a list of
   void generate(
-      List<dynamic> fonts, GlobalConfigs globals, BaseLogger? logger) {
+    List<dynamic> fonts,
+    GlobalConfigs globals,
+    BaseLogger? logger,
+  ) {
     logger?.info('Generating fonts references');
-    final List<String> fontFamilies =
-        fonts.map((item) => item['family'].toString()).toList();
+    final List<String> fontFamilies = fonts
+        .map((item) => item['family'].toString())
+        .toList();
     final String references = fontFamilies
         .map((name) {
           logger?.verbose('processing $name');
@@ -39,10 +43,14 @@ class FontsGenerator {
             properties: 'static const',
             assetNames: fontFamilies
                 .map(
-                  (name) => Formatter.formatName(name,
-                      prefix: '', useUnderScores: false),
+                  (name) => Formatter.formatName(
+                    name,
+                    prefix: '',
+                    useUnderScores: false,
+                  ),
                 )
-                .toList())
+                .toList(),
+          )
         : null;
 
     logger?.verbose('Constructing dart class for fonts');

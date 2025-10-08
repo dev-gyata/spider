@@ -48,7 +48,10 @@ class ConfigCreator {
       return Result.success();
     } on Error catch (error, stacktrace) {
       return Result.error(
-          ConsoleMessages.unableToCreateConfigFile, error, stacktrace);
+        ConsoleMessages.unableToCreateConfigFile,
+        error,
+        stacktrace,
+      );
     }
   }
 
@@ -56,7 +59,8 @@ class ConfigCreator {
   /// pubspec.yaml file to be present in the current directory where command
   /// is being executed.
   Result<void> createConfigsInPubspec() {
-    final pubspecFile = file(p.join(Directory.current.path, 'pubspec.yaml')) ??
+    final pubspecFile =
+        file(p.join(Directory.current.path, 'pubspec.yaml')) ??
         file(p.join(Directory.current.path, 'pubspec.yml'));
     if (pubspecFile == null) {
       return Result.error(ConsoleMessages.pubspecNotFound);
@@ -79,7 +83,10 @@ class ConfigCreator {
       return Result.success();
     } on Error catch (error, stacktrace) {
       return Result.error(
-          ConsoleMessages.unableToAddConfigInPubspec, error, stacktrace);
+        ConsoleMessages.unableToAddConfigInPubspec,
+        error,
+        stacktrace,
+      );
     }
   }
 
@@ -105,11 +112,13 @@ class ConfigCreator {
     final file = File(filePath);
     if (file.existsSync()) {
       return Result.error(
-          sprintf(ConsoleMessages.configFileExistsTemplate, [filePath]));
+        sprintf(ConsoleMessages.configFileExistsTemplate, [filePath]),
+      );
     }
     file.writeAsStringSync(content);
-    logger
-        ?.success(sprintf(ConsoleMessages.fileCreatedAtCustomPath, [filePath]));
+    logger?.success(
+      sprintf(ConsoleMessages.fileCreatedAtCustomPath, [filePath]),
+    );
     return Result.success();
   }
 

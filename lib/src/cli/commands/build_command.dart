@@ -31,19 +31,28 @@ class BuildCommand extends BaseCommand {
   /// [logger] is used to output all kinds of logs, errors and exceptions.
   BuildCommand(super.logger) {
     argParser
-      ..addFlag(FlagNames.watch,
-          negatable: false,
-          help: 'Watches assets directory for file changes and re-generates '
-              'dart references upon file creation, deletion or modification.')
-      ..addFlag(FlagNames.smartWatch,
-          negatable: false,
-          help: "Smartly watches assets directory for file changes and "
-              "re-generates dart references by ignoring events and files "
-              "that doesn't fall under the group configuration.")
-      ..addFlag(FlagNames.fontsOnly,
-          negatable: false,
-          help: "Only triggers code-gen for fonts when fonts is set in "
-              "config file.");
+      ..addFlag(
+        FlagNames.watch,
+        negatable: false,
+        help:
+            'Watches assets directory for file changes and re-generates '
+            'dart references upon file creation, deletion or modification.',
+      )
+      ..addFlag(
+        FlagNames.smartWatch,
+        negatable: false,
+        help:
+            "Smartly watches assets directory for file changes and "
+            "re-generates dart references by ignoring events and files "
+            "that doesn't fall under the group configuration.",
+      )
+      ..addFlag(
+        FlagNames.fontsOnly,
+        negatable: false,
+        help:
+            "Only triggers code-gen for fonts when fonts is set in "
+            "config file.",
+      );
   }
 
   @override
@@ -69,8 +78,11 @@ class BuildCommand extends BaseCommand {
         // if fonts-only flag is provided and fonts is not set in
         // config then exit with error.
         if (!result.data.globals.fontConfigs.generate) {
-          exitWith(sprintf(ConsoleMessages.fontsOnlyExecutedWithoutSetTemplate,
-              [FlagNames.fontsOnly]));
+          exitWith(
+            sprintf(ConsoleMessages.fontsOnlyExecutedWithoutSetTemplate, [
+              FlagNames.fontsOnly,
+            ]),
+          );
           return;
         }
       } else if (result.data.groups.isEmpty &&

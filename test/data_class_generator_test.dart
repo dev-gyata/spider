@@ -31,16 +31,16 @@ void main() {
           {
             "path": "assets/images",
             "types": ["png"],
-            "prefix": "png"
+            "prefix": "png",
           },
           {
             "path": "assets/images",
             "types": ["jpg"],
-            "prefix": "jpg"
-          }
-        ]
-      }
-    ]
+            "prefix": "jpg",
+          },
+        ],
+      },
+    ],
   };
 
   group('process tests', () {
@@ -53,8 +53,11 @@ void main() {
       createTestAssets();
 
       final Result<SpiderConfiguration> result = retrieveConfigs();
-      expect(result.isSuccess, isTrue,
-          reason: 'valid config file should not return error but it did.');
+      expect(
+        result.isSuccess,
+        isTrue,
+        reason: 'valid config file should not return error but it did.',
+      );
 
       final SpiderConfiguration config = result.data;
 
@@ -75,14 +78,15 @@ void main() {
     });
 
     test('asset generation test - comments', () async {
-      createTestConfigs(testConfig.copyWith({
-        'no_comments': false,
-      }));
+      createTestConfigs(testConfig.copyWith({'no_comments': false}));
       createTestAssets();
 
       final Result<SpiderConfiguration> result = retrieveConfigs();
-      expect(result.isSuccess, isTrue,
-          reason: 'valid config file should not return error but it did.');
+      expect(
+        result.isSuccess,
+        isTrue,
+        reason: 'valid config file should not return error but it did.',
+      );
 
       final SpiderConfiguration config = result.data;
 
@@ -108,8 +112,11 @@ void main() {
       createTestAssets();
 
       final Result<SpiderConfiguration> result = retrieveConfigs();
-      expect(result.isSuccess, isTrue,
-          reason: 'valid config file should not return error but it did.');
+      expect(
+        result.isSuccess,
+        isTrue,
+        reason: 'valid config file should not return error but it did.',
+      );
 
       final SpiderConfiguration config = result.data;
 
@@ -131,14 +138,15 @@ void main() {
     });
 
     test('asset generation test - watch', () async {
-      createTestConfigs(testConfig.copyWith({
-        'no_comments': false,
-      }));
+      createTestConfigs(testConfig.copyWith({'no_comments': false}));
       createTestAssets();
 
       final Result<SpiderConfiguration> result = retrieveConfigs();
-      expect(result.isSuccess, isTrue,
-          reason: 'valid config file should not return error but it did.');
+      expect(
+        result.isSuccess,
+        isTrue,
+        reason: 'valid config file should not return error but it did.',
+      );
 
       final SpiderConfiguration config = result.data;
 
@@ -178,39 +186,44 @@ void main() {
     });
 
     test('asset generation test - smart watch', () async {
-      createTestConfigs(testConfig.copyWith({
-        'no_comments': false,
-        "groups": [
-          {
-            "class_name": "Assets",
-            "sub_groups": [
-              {
-                "path": "assets/images",
-                "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"]
-              }
-            ]
-          },
-          {
-            "class_name": "Fonts",
-            "sub_groups": [
-              {
-                "path": "assets/fonts",
-              }
-            ]
-          }
-        ]
-      }));
+      createTestConfigs(
+        testConfig.copyWith({
+          'no_comments': false,
+          "groups": [
+            {
+              "class_name": "Assets",
+              "sub_groups": [
+                {
+                  "path": "assets/images",
+                  "types": ["jpg", "jpeg", "png", "webp", "gif", "bmp", "wbmp"],
+                },
+              ],
+            },
+            {
+              "class_name": "Fonts",
+              "sub_groups": [
+                {"path": "assets/fonts"},
+              ],
+            },
+          ],
+        }),
+      );
       createTestAssets();
       createMoreTestAssets();
 
       final Result<SpiderConfiguration> result = retrieveConfigs();
-      expect(result.isSuccess, isTrue,
-          reason: 'valid config file should not return error but it did.');
+      expect(
+        result.isSuccess,
+        isTrue,
+        reason: 'valid config file should not return error but it did.',
+      );
 
       final SpiderConfiguration config = result.data;
 
-      final generator1 =
-          DartClassGenerator(config.groups.first, config.globals);
+      final generator1 = DartClassGenerator(
+        config.groups.first,
+        config.globals,
+      );
 
       final generator2 = DartClassGenerator(config.groups[1], config.globals);
 
@@ -245,8 +258,9 @@ void main() {
       expect(newFile.existsSync(), isTrue);
 
       await Future.delayed(Duration(seconds: 5));
-      classContent =
-          File(p.join('lib', 'resources', 'assets.dart')).readAsStringSync();
+      classContent = File(
+        p.join('lib', 'resources', 'assets.dart'),
+      ).readAsStringSync();
 
       expect(classContent, contains('static const String test3'));
       expect(classContent, contains('assets/images/test3.png'));
@@ -259,14 +273,15 @@ void main() {
     });
 
     test('asset generation test - test cases', () async {
-      createTestConfigs(testConfig.copyWith({
-        'generate_tests': true,
-      }));
+      createTestConfigs(testConfig.copyWith({'generate_tests': true}));
 
       createTestAssets();
       final Result<SpiderConfiguration> result = retrieveConfigs();
-      expect(result.isSuccess, isTrue,
-          reason: 'valid config file should not return error but it did.');
+      expect(
+        result.isSuccess,
+        isTrue,
+        reason: 'valid config file should not return error but it did.',
+      );
 
       final SpiderConfiguration config = result.data;
 
@@ -294,13 +309,19 @@ void main() {
 
       expect(testContent, contains("import 'dart:io';"));
       expect(testContent, contains("import 'package:test/test.dart';"));
-      expect(testContent,
-          contains("import 'package:spider/resources/assets.dart';"));
+      expect(
+        testContent,
+        contains("import 'package:spider/resources/assets.dart';"),
+      );
       expect(testContent, contains("void main()"));
-      expect(testContent,
-          contains("expect(File(Assets.pngTest1).existsSync(), isTrue);"));
-      expect(testContent,
-          contains("expect(File(Assets.jpgTest2).existsSync(), isTrue);"));
+      expect(
+        testContent,
+        contains("expect(File(Assets.pngTest1).existsSync(), isTrue);"),
+      );
+      expect(
+        testContent,
+        contains("expect(File(Assets.jpgTest2).existsSync(), isTrue);"),
+      );
     });
 
     tearDown(() {
