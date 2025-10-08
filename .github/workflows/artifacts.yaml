@@ -4,6 +4,11 @@ on:
   release:
     types: [ published ]
   workflow_dispatch:
+    inputs:
+      dry:
+        description: 'Run the workflow in dry mode'
+        required: false
+        default: false
 
 jobs:
   ubuntu:
@@ -21,6 +26,7 @@ jobs:
         run: tar -czf spider-${{ github.event.release.tag_name }}-linux-amd64.tar.gz bin/spider
       - uses: actions/upload-artifact@v4
         with:
+          name: ubuntu
           path: spider-${{ github.event.release.tag_name }}-linux-amd64.tar.gz
 
   mac:
@@ -38,6 +44,7 @@ jobs:
         run: tar -czf spider-${{ github.event.release.tag_name }}-macos.tar.gz bin/spider
       - uses: actions/upload-artifact@v4
         with:
+          name: macos
           path: spider-${{ github.event.release.tag_name }}-macos.tar.gz
 
   windows:
@@ -56,6 +63,7 @@ jobs:
         run: tar.exe -a -c -f spider-${{ github.event.release.tag_name }}-windows.zip bin/spider.exe
       - uses: actions/upload-artifact@v4
         with:
+          name: windows
           path: spider-${{ github.event.release.tag_name }}-windows.zip
 
   upload:
@@ -65,10 +73,13 @@ jobs:
       - uses: actions/download-artifact@v5
         with:
           path: dist
+          merge-multiple: true
       - name: Display structure of downloaded files
         run: ls -R dist
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
+        # Do not run for dry run
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.dry == 'false' }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: dist/artifact/*
@@ -76,6 +87,7 @@ jobs:
           file_glob: true
       - name: Call Update Homebrew formula webhook
         uses: peter-evans/repository-dispatch@v4
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.dry == 'false' }}
         with:
           token: ${{ secrets.PAT_HOMEBREW_SPIDER_REPO }}
           repository: BirjuVachhani/homebrew-spider
