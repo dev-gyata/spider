@@ -83,7 +83,7 @@ jobs:
         if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.dry == false }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/artifact/*
+          file: dist/*
           tag: ${{ github.ref }}
           file_glob: true
       - name: Call Update Homebrew formula webhook
