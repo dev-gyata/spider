@@ -1,3 +1,9 @@
+## 4.2.3
+
+- [BUG] fix config parsing failing if no types are provided for an asset group.
+- Upgrade dependencies.
+- General cleanup.
+
 ## 4.2.2
 
 - Upgrade dependencies.
