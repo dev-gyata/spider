@@ -73,9 +73,9 @@ class AssetGroup {
       types = json['types'] == null ? null : <String>[];
     }
 
-    if (types != null) {
+    if (types != null && json['types'] != null) {
       json['types']!.forEach(
-        (group) => types!.add(formatExtension(group.toString()).toLowerCase()),
+        (type) => types!.add(formatExtension(type.toString()).toLowerCase()),
       );
     }
     if (subgroups != null) {
