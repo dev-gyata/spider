@@ -1,0 +1,3 @@
+# Configure dart test to run serially to prevent race conditions
+# Tests share config files and assets directories, so parallel execution causes failures
+concurrency: 1
