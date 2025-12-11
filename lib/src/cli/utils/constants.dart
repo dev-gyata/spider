@@ -58,7 +58,7 @@ class Constants {
   |                                                                 |
   |   Run following command to update to the latest version:        |
   |                                                                 |
-  |   pub global activate spider                                    |
+  |   dart pub global activate spider                               |
   |                                                                 |
   ===================================================================
 
